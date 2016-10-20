@@ -1,0 +1,275 @@
+$max: 100%;
+$none: 0;
+$barHeight: 20%;
+$mapHeight: 80%;
+$mapHeightCond: 60%;
+$boardWidth: 500px;
+$tileWidth: 20px;
+$mobileBarSlideTime: 0.5s;
+
+$headerBGColor: #e0e0e0;
+$headerTextColor: #000;
+
+@mixin mControlDisplay($width: $max) {
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: hidden;
+  width: $width;
+}
+
+* {
+  box-sizing: border-box;
+  margin: $none;
+  padding: $none;
+}
+
+html,
+body {
+  font-family: 'Nunito', Arial, Helvetica, sans-serif;
+  height: $max;
+  overflow: hidden;
+  width: $max;
+}
+
+h1 {
+  text-align: center;
+}
+
+.dungeon-crawler {
+  height: $max;
+  width: $max;
+
+  .stats {
+    background: $headerBGColor;
+    color: $headerTextColor;
+    text-align: center;
+    position: relative;
+    width: $max;
+    height: $barHeight;
+
+    li {
+      display: inline-block;
+      margin-right: 10px;
+
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .messages {
+      background-color: #222;
+      border: 5px solid #000;
+      color: #fff;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 6px;
+      text-align: center;
+
+      p {
+        font-size: 14px;
+        font-weight: bold;
+        min-height: 19px;
+      }
+    }
+  }
+
+  .map {
+    background: #000;
+    width: $max;
+    height: $mapHeight;
+    border: 10px solid #000;
+    transition: $mobileBarSlideTime;
+    overflow: hidden;
+
+    .row {
+      font-size: 0;
+      text-align: center;
+      position: relative;
+      white-space: nowrap;
+
+      .tile {
+        display: inline-block;
+        width: $tileWidth;
+        height: $tileWidth;
+        position: relative;
+      }
+
+      .floor {
+        background-color: #fff;
+      }
+
+      .wall {
+        background-color: #481d00;
+      }
+
+      .enemy {
+        background-color: #ff0000;
+      }
+
+      .boss {
+        background-color: #ff00fa;
+      }
+
+      .player {
+        background-color: #0000ff;
+      }
+
+      .health {
+        background-color: #008000;
+        position: relative;
+
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 4px;
+          height: 12px;
+          background-color: #fff;
+          top: 4px;
+          left: 8px;
+        }
+
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 12px;
+          height: 4px;
+          background-color: #fff;
+          top: 8px;
+          left: 4px;
+        }
+      }
+
+      .weapon {
+        background-color: #ffd100;
+        border: 2px solid brown;
+        border-top: 9px solid brown;
+
+        &:before {
+          content: '';
+          position: absolute;
+          top: -3px;
+          left: 6px;
+          width: 4px;
+          height: 4px;
+          background-color: #fff;
+        }
+      }
+
+      .exit {
+        background-color: #800080;
+
+        &:before {
+          content: 'E';
+          color: #fff;
+          font-size: 12px;
+          position: absolute;
+          top: 3px;
+          right: 0;
+          width: $tileWidth;
+          height: $tileWidth;
+        }
+      }
+
+      .tile.dark {
+        background-color: #000;
+      }
+    }
+  }
+
+  .map.dark {
+    border-color: #000;
+  }
+
+  .map.condensed {
+    height: $mapHeightCond;
+  }
+
+  .mobile-controls {
+    @include mControlDisplay();
+    background: #efefef;
+    min-height: 115px;
+    height: $none;
+    transition: $mobileBarSlideTime;
+    z-index: 9999;
+    position: relative;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .keys {
+      @include mControlDisplay(165px);
+      flex-wrap: wrap-reverse;
+
+      div {
+        border: 1px solid #000;
+        border-radius: 5px;
+        font-size: 1.5625em;
+        font-weight: bold;
+        height: 45px;
+        line-height: 1.6;
+        margin: 5px;
+        text-align: center;
+        width: 45px;
+      }
+
+      div:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .mobile-controls.expanded {
+    height: $barHeight;
+  }
+
+  .mobile-toggle,
+  .lights-toggle {
+    display: inline-block;
+    margin: 5px 0;
+    padding-left: 25px;
+    position: relative;
+
+    &:before {
+      content: '';
+      background-color: #0f5a00;
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .mobile-toggle {
+    margin-right: 10px;
+  }
+
+  .mobile-toggle.on,
+  .lights-toggle.on {
+    &:before {
+      background-color: #00ce00;
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(113, 255, 103, 0.6);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  .stat {
+    font-size: 12px;
+  }
+}
